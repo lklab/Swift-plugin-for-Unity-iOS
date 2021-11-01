@@ -26,13 +26,14 @@ public static class BuildScript
         string frameworkTarget = proj.GetUnityFrameworkTargetGuid();
 
         string unityFrameworkHeaderText = File.ReadAllText(buildPath + "/UnityFramework/UnityFramework.h");
-        unityFrameworkHeaderText += "\n";
         foreach (string headerPath in publicHeaderPaths)
         {
             string headerGuid = proj.FindFileGuidByProjectPath(headerPath);
             proj.AddPublicHeaderToBuild(frameworkTarget, headerGuid);
 
-            unityFrameworkHeaderText += "#import \"" + Path.GetFileName(headerPath) + "\"\n";
+            string importStatement = "#import \"" + Path.GetFileName(headerPath) + "\"";
+            if (!unityFrameworkHeaderText.Contains(importStatement))
+                unityFrameworkHeaderText += "\n" + importStatement + "\n";
         }
         File.WriteAllText(buildPath + "/UnityFramework/UnityFramework.h", unityFrameworkHeaderText);
 
