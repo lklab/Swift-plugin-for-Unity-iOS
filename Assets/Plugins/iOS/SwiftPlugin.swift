@@ -8,6 +8,6 @@ public class SwiftPlugin: NSObject
     {
         count += 1;
         ObjcBridge.sendMessage("count is " + String(count));
-        return "";
+        return "Hello, I'm swift.";
     }
 }
